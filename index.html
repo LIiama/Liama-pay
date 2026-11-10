@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>LIAMA — بيانات التحويل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#374631; --cream:#FAF2DF; --dim:rgba(250,242,223,.65); --card:rgba(250,242,223,.08); --line:rgba(250,242,223,.18); }
+  * { box-sizing:border-box; }
+  html,body { margin:0; background:var(--bg); color:var(--cream); font-family:'IBM Plex Sans Arabic',system-ui,sans-serif; min-height:100%; }
+  main { max-width:440px; margin:0 auto; padding:28px 20px 40px; }
+  header { display:flex; justify-content:space-between; align-items:center; padding-bottom:16px; border-bottom:1px solid var(--line); }
+  .brand { font-family:Georgia,serif; letter-spacing:.45em; font-size:15px; direction:ltr; }
+  .tag { font-size:13px; color:var(--dim); }
+  h1 { text-align:center; font-size:30px; margin:36px 0 6px; font-weight:700; }
+  .sub { text-align:center; color:var(--dim); margin:0 0 28px; font-size:15px; }
+  .item { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:14px; }
+  .label { font-size:13px; color:var(--dim); margin-bottom:6px; }
+  .row { display:flex; flex-direction:column; align-items:stretch; gap:12px; }
+  .val { direction:ltr; text-align:left; font-weight:600; font-size:18px; letter-spacing:.02em; white-space:nowrap; font-size:clamp(13px,4.1vw,19px); width:100%; overflow:hidden; text-overflow:clip; font-variant-numeric:tabular-nums; letter-spacing:0; }
+  .val a { color:inherit !important; text-decoration:none !important; }
+  button { flex:none; background:var(--cream); color:var(--bg); border:0; border-radius:999px; padding:10px 16px; font:600 14px 'IBM Plex Sans Arabic',sans-serif; cursor:pointer; width:100%; padding:12px 16px; }
+  button.ok { background:#cfe3b8; }
+  .plain .val { font-size:16px; }
+  footer { text-align:center; margin-top:30px; font-size:20px; }
+</style>
+</head>
+<body>
+<main>
+  <header><span class="brand">LIAMA</span><span class="tag">من مطبخنا في الرياض</span></header>
+  <h1>بيانات التحويل</h1>
+  <p class="sub">اضغطوا «نسخ» والصقوها في تطبيق البنك</p>
+
+  <div class="item">
+    <div class="label">الآيبان</div>
+    <div class="row"><div class="val" id="iban">SA23 0500 0068 2077 5519 8000</div><button data-copy="SA2305000068207755198000">نسخ</button></div>
+  </div>
+  <div class="item">
+    <div class="label">رقم الحساب</div>
+    <div class="row"><div class="val">68207755198000</div><button data-copy="68207755198000">نسخ</button></div>
+  </div>
+  <div class="item plain">
+    <div class="label">اسم المستفيد</div>
+    <div class="row"><div class="val" style="direction:rtl;text-align:right">لمى طلال العتيبي<br><span style="font-size:13px;color:var(--dim);direction:ltr;display:inline-block">LAMA TALAL G ALOTAIBI</span></div><button data-copy="LAMA TALAL G ALOTAIBI">نسخ</button></div>
+  </div>
+  <div class="item plain">
+    <div class="label">البنك</div>
+    <div class="row"><div class="val" style="direction:rtl;text-align:right">مصرف الإنماء</div></div>
+  </div>
+
+  <footer>وبالعافية عليكم</footer>
+</main>
+<script>
+function fallbackCopy(t){
+  const ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
+  ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+  let ok=false; try{ ok=document.execCommand('copy'); }catch(e){} ta.remove(); return ok;
+}
+document.querySelectorAll('button[data-copy]').forEach(b=>{
+  b.addEventListener('click', async ()=>{
+    const t=b.dataset.copy; let ok=false;
+    try{ await navigator.clipboard.writeText(t); ok=true; }catch(e){ ok=fallbackCopy(t); }
+    b.textContent = ok ? 'تم النسخ ✓' : 'انسخ يدويًا';
+    if(ok) b.classList.add('ok');
+    setTimeout(()=>{ b.textContent='نسخ'; b.classList.remove('ok'); }, 1800);
+  });
+});
+</script>
+</body>
+</html>
